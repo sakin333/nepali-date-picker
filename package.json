@@ -1,0 +1,85 @@
+{
+  "name": "@unholy_centipede/nepali-date-picker",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A modern, customizable React date picker with Bikram Sambat (BS) and Anno Domini (AD) calendar support for Nepali dates",
+  "author": "Void",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sakin333/nepali-date-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sakin333/nepali-date-picker/issues"
+  },
+  "homepage": "https://github.com/sakin333/nepali-date-picker#readme",
+  "keywords": [
+    "react",
+    "datepicker",
+    "date-picker",
+    "nepali",
+    "nepali-date",
+    "nepali-date-picker",
+    "bikram-sambat",
+    "bs-date",
+    "ad-date",
+    "calendar",
+    "nepal",
+    "typescript"
+  ],
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:lib": "tsc --project tsconfig.build.json && vite build --config vite.config.lib.ts",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "peerDependencies": {
+    "lucide-react": ">=0.300.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "ajv": "^8.17.1",
+    "ajv-draft-04": "^1.0.0",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.4"
+  }
+}

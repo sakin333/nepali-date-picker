@@ -1,0 +1,39 @@
+# Source files (we include dist only)
+src/
+public/
+
+# Development files
+node_modules/
+*.log
+.git/
+.gitignore
+
+# Config files
+vite.config.ts
+tsconfig.json
+tsconfig.app.json
+tsconfig.node.json
+tsconfig.build.json
+eslint.config.js
+index.html
+
+# IDE
+.vscode/
+.idea/
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__/
+coverage/
+
+# Demo/example files
+src/App.tsx
+src/main.tsx
+src/index.css
+
+# Misc
+.DS_Store
+*.tsbuildinfo
