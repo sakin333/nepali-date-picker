@@ -36,7 +36,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./index.css": "./dist/index.css"
   },
   "files": [
     "dist",
@@ -48,38 +48,43 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:lib": "tsc --project tsconfig.build.json && vite build --config vite.config.lib.ts",
+    "build:css": "tailwindcss -i ./src/index.css -o ./dist/index.css --minify",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "build": "npm run build:css && npm run build:types && npm run build:lib",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "lucide-react": ">=0.300.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "ajv": "^8.17.1",
     "ajv-draft-04": "^1.0.0",
+    "autoprefixer": "^10.4.23",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "lucide-react": "^0.562.0",
+    "postcss": "^8.5.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "^3.4.19",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4",
-    "vite-plugin-dts": "^4.5.4"
+    "vite": "^7.2.4"
   }
 }
