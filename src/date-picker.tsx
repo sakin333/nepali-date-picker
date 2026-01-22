@@ -1,5 +1,5 @@
 import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type JSX } from "react";
 import { AD_MONTHS, BS_MONTHS } from "./constants";
 import type { CalendarType, ConvertedDate, DateObject, Theme } from "./types";
 import {
@@ -21,6 +21,7 @@ interface DatePickerProps {
   minDate?: DateObject | null;
   maxDate?: DateObject | null;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -32,6 +33,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   theme = "blue",
   disabled = false,
   className = "",
+  size = "md",
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<DateObject | null>(value);
@@ -39,6 +41,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
     useState<CalendarType>(calendarType);
   const [viewYear, setViewYear] = useState<number | null>(null);
   const [viewMonth, setViewMonth] = useState<number | null>(null);
+  const [position, setPosition] = useState<"top" | "bottom">("bottom");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const themeColors: Record<Theme, string> = {
     blue: "bg-blue-600 hover:bg-blue-700 text-white",
@@ -52,6 +57,30 @@ const DatePicker: React.FC<DatePickerProps> = ({
     green: "bg-green-50 text-green-700 border-green-200",
     purple: "bg-purple-50 text-purple-700 border-purple-200",
     red: "bg-red-50 text-red-700 border-red-200",
+  };
+
+  const sizeConfig = {
+    sm: {
+      input: "px-3 py-1.5 text-xs",
+      icon: "w-4 h-4",
+      calendarWidth: "w-72",
+      cellHeight: "h-8",
+      fontSize: "text-xs",
+    },
+    md: {
+      input: "px-4 py-2.5 text-sm",
+      icon: "w-5 h-5",
+      calendarWidth: "w-80",
+      cellHeight: "h-10",
+      fontSize: "text-sm",
+    },
+    lg: {
+      input: "px-5 py-3 text-base",
+      icon: "w-6 h-6",
+      calendarWidth: "w-96",
+      cellHeight: "h-12",
+      fontSize: "text-base",
+    },
   };
 
   useEffect(() => {
@@ -81,6 +110,22 @@ const DatePicker: React.FC<DatePickerProps> = ({
       }
     }
   }, [currentCalendarType, selectedDate]);
+
+  useLayoutEffect(() => {
+    if (isOpen && containerRef.current && dropdownRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const spaceBelow = windowHeight - rect.bottom;
+      const dropdownHeight = dropdownRect.height;
+
+      if (spaceBelow < dropdownHeight && rect.top > dropdownHeight) {
+        setPosition("top");
+      } else {
+        setPosition("bottom");
+      }
+    }
+  }, [isOpen]);
 
   const formatDate = (date: DateObject, type: CalendarType): string => {
     if (!date) return "";
@@ -246,7 +291,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
         : ["S", "M", "T", "W", "T", "F", "S"];
 
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="h-10"></div>);
+      days.push(
+        <div key={`empty-${i}`} className={sizeConfig[size].cellHeight}></div>,
+      );
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -269,7 +316,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           key={day}
           onClick={() => handleDateSelect(day)}
           disabled={disabled}
-          className={`h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors relative
+          className={`${sizeConfig[size].cellHeight} flex items-center justify-center rounded-lg ${sizeConfig[size].fontSize} font-medium transition-colors relative
             ${
               isSelected
                 ? themeColors[theme]
@@ -296,7 +343,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           {weekDays.map((day, i) => (
             <div
               key={i}
-              className="h-8 flex items-center justify-center text-xs font-semibold text-gray-600"
+              className={`${sizeConfig[size].cellHeight} flex items-center justify-center text-xs font-semibold text-gray-600`}
             >
               {day}
             </div>
@@ -316,10 +363,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
       : viewYear;
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} ref={containerRef}>
       <div
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`flex items-center gap-2 px-4 py-2.5 border rounded-lg cursor-pointer transition-colors
+        className={`flex items-center gap-2 ${sizeConfig[size].input} border rounded-lg cursor-pointer transition-colors
           ${
             disabled
               ? "bg-gray-100 cursor-not-allowed"
@@ -328,9 +375,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
           ${isOpen ? "border-gray-400 ring-2 ring-gray-200" : "border-gray-300"}
         `}
       >
-        <Calendar className="w-5 h-5 text-gray-500" />
+        <Calendar className={`${sizeConfig[size].icon} text-gray-500`} />
         <span
-          className={`flex-1 ${selectedDate ? "text-gray-900" : "text-gray-500"}`}
+          className={`flex-1 ${selectedDate ? "text-gray-900" : "text-gray-500"} ${sizeConfig[size].fontSize}`}
         >
           {selectedDate
             ? formatDate(selectedDate, selectedDate.calendarType)
@@ -356,7 +403,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute z-50 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 w-80">
+          <div
+            ref={dropdownRef}
+            className={`absolute z-50 ${position === "top" ? "bottom-full mb-2" : "mt-2"} bg-white rounded-xl shadow-2xl border border-gray-200 ${sizeConfig[size].calendarWidth}`}
+          >
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <button
@@ -367,7 +417,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 </button>
 
                 <div className="text-center">
-                  <div className="font-semibold text-gray-900">
+                  <div
+                    className={`font-semibold text-gray-900 ${size === "lg" ? "text-lg" : "text-base"}`}
+                  >
                     {monthNames[viewMonth]} {displayYear}
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
