@@ -1,6 +1,6 @@
 {
   "name": "@unholy_centipede/nepali-date-picker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A modern, customizable React date picker with Bikram Sambat (BS) and Anno Domini (AD) calendar support for Nepali dates",
   "author": "Void",
