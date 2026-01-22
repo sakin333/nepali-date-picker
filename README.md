@@ -13,6 +13,8 @@ A modern, beautifully crafted React date picker with seamless **Bikram Sambat (B
 - 🔄 **Automatic Conversion** - Seamless date conversion between BS and AD
 - 🔢 **Nepali Numerals** - Optional Nepali numeral display for authentic BS dates
 - 🎨 **Multiple Themes** - Blue, Green, Purple, and Red themes
+- 📏 **Size Variants** - Small, Medium, and Large size options
+- 🧠 **Smart Positioning** - Auto-adjusts popup position based on screen space
 - 📱 **Responsive Design** - Mobile-friendly with modern UI/UX
 - 💎 **TypeScript Support** - Full type definitions included
 - ⚡ **Lightweight** - Minimal dependencies
@@ -70,6 +72,7 @@ function App() {
 | `placeholder`       | `string`                                 | `'Select date'` | Placeholder text                   |
 | `useNepaliNumerals` | `boolean`                                | `true`          | Display Nepali numerals in BS mode |
 | `theme`             | `'blue' \| 'green' \| 'purple' \| 'red'` | `'blue'`        | Color theme                        |
+| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`          | Size of the input and calendar     |
 | `disabled`          | `boolean`                                | `false`         | Disable the date picker            |
 | `className`         | `string`                                 | `''`            | Additional CSS class               |
 
@@ -161,11 +164,11 @@ import {
 
 ## 📄 License
 
-MIT © [Sakin Maharjan](https://github.com/sakinmaharjan)
+MIT © [unholy_centipede](https://github.com/sakin333)
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/sakinmaharjan/nepali-date-picker/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/sakin333/nepali-date-picker/issues).
 
 ## ⭐ Show Your Support
 
